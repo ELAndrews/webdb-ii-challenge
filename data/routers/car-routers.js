@@ -1,7 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const cars = require("../helpers/car-models");
-const {} = require("../middleware/car-middleware");
+const {
+  validateId,
+  validateBodyFull,
+  validateUniqueVIN
+} = require("../middleware/car-middleware");
 
 router.get("/api/cars", (req, res) => {
   cars
@@ -14,7 +18,7 @@ router.get("/api/cars", (req, res) => {
     });
 });
 
-router.get("/api/cars/:id", (req, res) => {
+router.get("/api/cars/:id", validateId, (req, res) => {
   cars
     .getCarById(req.params.id)
     .then(car => {
@@ -25,7 +29,7 @@ router.get("/api/cars/:id", (req, res) => {
     });
 });
 
-router.post("/api/cars", (req, res) => {
+router.post("/api/cars", validateBodyFull, validateUniqueVIN, (req, res) => {
   cars
     .insertNewCar(req.body)
     .then(car => {
@@ -36,21 +40,32 @@ router.post("/api/cars", (req, res) => {
     });
 });
 
-router.put("/api/cars/:id", (req, res) => {
-  cars
-    .updateCarById(req.params.id, req.body)
-    .then(updated => {
-      if (updated === 1) {
+router.put(
+  "/api/cars/:id",
+  validateId,
+  validateBodyFull,
+  validateUniqueVIN,
+  (req, res) => {
+    cars
+      .updateCarById(req.params.id, req.body)
+      .then(updated => {
         res.status(200).json(`Car data have been updated`);
-      } else {
-        res.status(404).json(`Car data was unable to update`);
-      }
+      })
+      .catch(error => {
+        res.status(500).json(`Error updating car data`);
+      });
+  }
+);
+
+router.delete("/api/cars/:id", validateId, (req, res) => {
+  cars
+    .deleteCarById(req.params.id)
+    .then(deleted => {
+      res.status(200).json(`Car data have been deleted`);
     })
     .catch(error => {
-      res.status(500).json(`Error updating car data`);
+      res.status(500).json(`Error deleting car data`);
     });
 });
-
-router.delete("", (req, res) => {});
 
 module.exports = router;

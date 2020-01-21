@@ -10,6 +10,12 @@ function getCarById(id) {
     .first();
 }
 
+function getUniqueCarVINs() {
+  return db("cars")
+    .distinct("vin")
+    .pluck("vin");
+}
+
 function insertNewCar({ make, model, vin, mileage, transmissionType, status }) {
   return db("cars").insert({
     make,
@@ -30,4 +36,17 @@ function updateCarById(
     .update({ make, model, vin, mileage, transmissionType, status });
 }
 
-module.exports = { getAllCars, getCarById, insertNewCar, updateCarById };
+function deleteCarById(id) {
+  return db("cars")
+    .where({ id: id })
+    .delete();
+}
+
+module.exports = {
+  getAllCars,
+  getCarById,
+  insertNewCar,
+  updateCarById,
+  deleteCarById,
+  getUniqueCarVINs
+};
