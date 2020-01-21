@@ -10,4 +10,15 @@ function getCarById(id) {
     .first();
 }
 
-module.exports = { getAllCars, getCarById };
+function insertNewCar({ make, model, vin, mileage, transmissionType, status }) {
+  return db("cars").insert({
+    make,
+    model,
+    vin,
+    mileage,
+    transmissionType,
+    status
+  });
+}
+
+module.exports = { getAllCars, getCarById, insertNewCar };

@@ -25,11 +25,16 @@ router.get("/api/cars/:id", (req, res) => {
     });
 });
 
-router.post(
-  "",
-
-  (req, res) => {}
-);
+router.post("/api/cars", (req, res) => {
+  cars
+    .insertNewCar(req.body)
+    .then(car => {
+      res.status(202).json(car);
+    })
+    .catch(error => {
+      res.status(500).json(`Error adding new car data`);
+    });
+});
 
 router.put(
   "",
