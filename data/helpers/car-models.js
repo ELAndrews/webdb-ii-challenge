@@ -1,3 +1,7 @@
 const db = require("../dbConfig");
 
-module.exports = {};
+function getAllCars() {
+  return db("cars");
+}
+
+module.exports = { getAllCars };
