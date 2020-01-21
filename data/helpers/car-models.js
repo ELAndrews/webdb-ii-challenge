@@ -21,4 +21,13 @@ function insertNewCar({ make, model, vin, mileage, transmissionType, status }) {
   });
 }
 
-module.exports = { getAllCars, getCarById, insertNewCar };
+function updateCarById(
+  id,
+  { make, model, vin, mileage, transmissionType, status }
+) {
+  return db("cars")
+    .where({ id: id })
+    .update({ make, model, vin, mileage, transmissionType, status });
+}
+
+module.exports = { getAllCars, getCarById, insertNewCar, updateCarById };

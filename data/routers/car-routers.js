@@ -36,11 +36,20 @@ router.post("/api/cars", (req, res) => {
     });
 });
 
-router.put(
-  "",
-
-  (req, res) => {}
-);
+router.put("/api/cars/:id", (req, res) => {
+  cars
+    .updateCarById(req.params.id, req.body)
+    .then(updated => {
+      if (updated === 1) {
+        res.status(200).json(`Car data have been updated`);
+      } else {
+        res.status(404).json(`Car data was unable to update`);
+      }
+    })
+    .catch(error => {
+      res.status(500).json(`Error updating car data`);
+    });
+});
 
 router.delete("", (req, res) => {});
 
