@@ -14,7 +14,16 @@ router.get("/api/cars", (req, res) => {
     });
 });
 
-router.get("", (req, res) => {});
+router.get("/api/cars/:id", (req, res) => {
+  cars
+    .getCarById(req.params.id)
+    .then(car => {
+      res.status(200).json(car);
+    })
+    .catch(error => {
+      res.status(500).json(`Error collecting car data`);
+    });
+});
 
 router.post(
   "",

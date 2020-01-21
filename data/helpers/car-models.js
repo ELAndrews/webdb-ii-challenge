@@ -4,4 +4,10 @@ function getAllCars() {
   return db("cars");
 }
 
-module.exports = { getAllCars };
+function getCarById(id) {
+  return db("cars")
+    .where({ id: id })
+    .first();
+}
+
+module.exports = { getAllCars, getCarById };
